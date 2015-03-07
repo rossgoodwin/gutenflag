@@ -19,6 +19,9 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 
 api = tweepy.API(auth)
 
+sn_delivered = []
+sn_tryagain = []
+
 
 def uniqify(seq, idfun=None): 
     if idfun is None:
@@ -83,9 +86,12 @@ def make_tweet(cl, user, tid):
             rec_list = cl
         ul = " ".join(["http://gutenberg.org/ebooks/"+c for c in rec_list])
         text = "%s for @%s" % (ul, user)
-    else:
+        sn_delivered.append(user)
+        api.update_status(status=text, in_reply_to_status_id=tid)
+    elif not user in sn_tryagain:
         text = "Sorry, @%s. I have no recommendations for you at the moment. Write some more relevant tweets and try again!" % user
-    api.update_status(status=text, in_reply_to_status_id=tid)
+        sn_tryagain.append(user)
+        api.update_status(status=text, in_reply_to_status_id=tid)
 
 
 def recommend(un, tweet_id):
@@ -102,7 +108,10 @@ class RecListener(StreamListener):
         print status.text
         print status.user.screen_name
         print status.id
-        recommend(status.user.screen_name, status.id)
+        if status.user.screen_name in sn_delivered:
+            pass
+        else:
+            recommend(status.user.screen_name, status.id)
 
     def on_error(self, status_code):
         print >> sys.stderr, 'Encountered error with status code:', status_code
