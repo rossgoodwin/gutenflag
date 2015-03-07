@@ -38,10 +38,9 @@ def get_status_text(user):
 
 
 def get_alchemy_json(text):
-    apikeys = ["cd2f83eec12c1e14c95eae07cfe3e0c2a71062b3"]
     endpt = "http://access.alchemyapi.com/calls/text/TextGetRankedConcepts"
     payload = {
-        "apikey": apikeys[0],
+        "apikey": os.environ.get('ALCHEMY_API_KEY'),
         "text": text,
         "outputMode": "json",
         "showSourceText": 0,
