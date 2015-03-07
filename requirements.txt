@@ -1,0 +1,15 @@
+backports.ssl-match-hostname==3.4.0.2
+beautifulsoup4==4.3.2
+certifi==14.5.14
+gnureadline==6.3.3
+ipython==2.4.1
+Jinja2==2.7.3
+MarkupSafe==0.23
+oauthlib==0.7.2
+pymongo==2.8
+pyzmq==14.5.0
+requests==2.5.1
+requests-oauthlib==0.4.2
+six==1.9.0
+tornado==4.1
+tweepy==3.3.0
